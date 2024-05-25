@@ -155,6 +155,26 @@ app.post("/translate", verifyToken, async (req, res) => {
   }
 });
 
+app.post("/save-translation", verifyToken, async (req, res) => {
+  const { originalText } = req.body;
+  const userId = req.userId;
+  try {
+    await client.connect();
+    await client
+      .db("translationThis")
+      .collection("users")
+      .updateOne(
+        { _id: ObjectId.createFromHexString(userId) },
+        { $set: { originalText } }
+      );
+    res.status(200).json({ message: "Original text saved successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  } finally {
+    client.close();
+  }
+});
+
 app.get("/translations/:userId", verifyToken, async (req, res) => {
   const userId = req.params.userId;
 
