@@ -37,12 +37,13 @@ app.post("/register", async (req, res) => {
 
     const usersCollection = client.db("translationThis").collection("users");
 
-    // const oldUser = await usersCollection.findOne({ email: email });
-    // if (oldUser) {
-    //   return res
-    //     .status(409)
-    //     .send("User Email Already Exist. Please use another email.");
-    // }
+    const oldUser = await usersCollection.findOne({ email: email });
+
+    if (oldUser) {
+      return res
+        .status(409)
+        .json({ error: "User Email Already Exist. Please use another email." });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = { name, email, hashedPassword };
@@ -83,7 +84,7 @@ app.post("/login", async (req, res) => {
     const user = await usersCollection.findOne({ email });
 
     if (!user) {
-      return res.status(401).json({ error: "Invalid email" });
+      return res.status(401).json({ error: "Invalid email or password" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
