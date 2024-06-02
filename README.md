@@ -4,7 +4,7 @@ Backend server for translateThis using Anthropic Claude API.
 
 ### Install the dependancies:
 ```
-npm insall
+npm install
 ```
 
 ### ENV Variables:
