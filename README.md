@@ -1,6 +1,7 @@
 # TranslateThis 
 
-Backend server for translateThis using Anthropic Claude API.
+Backend server for translateThis using Anthropic Claude API.  
+Frontend: https://github.com/kishanbapodra/translate-this-frontend  
 
 ### Install the dependancies:
 ```
